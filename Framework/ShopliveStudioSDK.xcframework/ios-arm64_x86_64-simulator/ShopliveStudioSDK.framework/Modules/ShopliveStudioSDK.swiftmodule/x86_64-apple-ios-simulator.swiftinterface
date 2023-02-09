@@ -2,23 +2,31 @@
 // swift-compiler-version: Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)
 // swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopliveStudioSDK
 // swift-module-flags-ignorable: -enable-bare-slash-regex
+import AVFAudio
 import AVFoundation
 import AVKit
 import Alamofire
+import AudioToolbox
 import Combine
+import CoreAudio
 import CoreFoundation
 import CoreGraphics
+import CoreImage
 import CoreMedia
+import CoreVideo
 import Foundation
-import HaishinKit
 import MediaPlayer
+import MetalKit
+import Network
 import PanModal
+import QuartzCore
 @_exported import ShopliveStudioSDK
 import SnapKit
 import Swift
 import SwiftUI
 import UIKit.UIFont
 import UIKit
+import VideoToolbox
 import WebKit
 import _Concurrency
 import _StringProcessing
@@ -97,6 +105,9 @@ public protocol SLRequestable {
   associatedtype Request
   func request(_ request: Self.Request)
 }
+extension CoreAudioTypes.AudioStreamBasicDescription : Swift.Equatable {
+  public static func == (lhs: CoreAudioTypes.AudioStreamBasicDescription, rhs: CoreAudioTypes.AudioStreamBasicDescription) -> Swift.Bool
+}
 public enum KeychainItemAccessibility {
   @available(iOS 4, *)
   case afterFirstUnlock
@@ -130,20 +141,17 @@ public enum KeychainItemAccessibility {
   @_Concurrency.MainActor(unsafe) override final public func attributes()
   @_Concurrency.MainActor(unsafe) override final public func layout()
 }
-extension ShopliveStudioSDK.StreamViewController : HaishinKit.RTMPStreamDelegate {
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, _ output: AVFoundation.AVCaptureOutput, didOutput sampleBuffer: CoreMedia.CMSampleBuffer)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, publishInsufficientBWOccured connection: HaishinKit.RTMPConnection)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, publishSufficientBWOccured connection: HaishinKit.RTMPConnection)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, didOutput video: CoreMedia.CMSampleBuffer)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, didOutput audio: AVFAudio.AVAudioBuffer, presentationTimeStamp: CoreMedia.CMTime)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, updatedStats connection: HaishinKit.RTMPConnection)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, videoCodecErrorOccurred error: HaishinKit.VideoCodec.Error)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStreamDidClear(_ stream: HaishinKit.RTMPStream)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, didStatics connection: HaishinKit.RTMPConnection)
-}
 extension UIKit.UINavigationController {
   @_Concurrency.MainActor(unsafe) @objc override dynamic open var childForStatusBarStyle: UIKit.UIViewController? {
     @objc get
+  }
+}
+@_hasMissingDesignatedInitializers open class ByteArray {
+  @objc deinit
+}
+extension ShopliveStudioSDK.ByteArray : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
   }
 }
 public protocol SLResultObservable {

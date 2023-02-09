@@ -18,43 +18,43 @@
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		tZbUVJ/W33/rbO22+K0diPcaYQA=
+		1ayWBVzR8oDweq/hwdXpFqk4jmg=
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		twFYvy9bAAhLwiRWL7rX7n+z24s=
+		Wd6C3FxKPKyLa4lxTkH7bS4BmYQ=
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		TJMpf3Ge1JINZq+pTas4z4lBtMQ=
+		y0hXA/Yl/JKfA+CqVzagTJCkW68=
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		twFYvy9bAAhLwiRWL7rX7n+z24s=
+		Wd6C3FxKPKyLa4lxTkH7bS4BmYQ=
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		cJFAp5ZN+490P8MhbtBI8V+/S98=
+		8ahmZ2gz6pIhiLj4QWfPXk9wUu4=
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		tZbUVJ/W33/rbO22+K0diPcaYQA=
+		1ayWBVzR8oDweq/hwdXpFqk4jmg=
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		4Owrk8NrihmFutk+cm2GVGiErac=
+		+VKcdQTM/WoC9myBVF35n0xZNyI=
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		pkMapATy3MqcORfuOTBf2x6FxkY=
+		dAOuLIUJG4No73fhRJFt1mKuyeM=
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		4Owrk8NrihmFutk+cm2GVGiErac=
+		+VKcdQTM/WoC9myBVF35n0xZNyI=
 		</data>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		RJS45SazLBwEtoFDmZ7gU7N85S8=
+		RfGrWDZuqGxxzROur6kdQots3Ug=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -102,7 +102,7 @@
 		</data>
 		<key>PrivateHeaders/ShopliveStudioSDK.h</key>
 		<data>
-		9bnWfw/E+r700sxftFUqlh46wTY=
+		NhQO9Yn65BkrVAlJxzgN0Y8+E7I=
 		</data>
 		<key>StreamBottomSheetSelectStreamOptionViewController.storyboardc/Info.plist</key>
 		<data>
@@ -155,70 +155,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GJWftuTuxDS+U6b+eXEGORkoobiNe8JeSlZpuxAhV6g=
+			ZSaJtTcb3qRwogPhfkuiUc6dFzhsumbZcAUzB9R16I0=
 			</data>
 		</dict>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TgBVHunD8x+yVponAf3ADK+OrdJ6NXfhIo2KQsfbs98=
+			+lezenGu2sNF7Jei5LMs7H4+rWWVOoLnYvxWwWL7vRk=
 			</data>
 		</dict>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			u82XtzlggrONOq13NfjOfk8joqkK7Dtvj8xxQP/73Ns=
+			o+DtgOy6q93wo57K6eao/XWQgPs8WWx8QATZl9j5atA=
 			</data>
 		</dict>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TgBVHunD8x+yVponAf3ADK+OrdJ6NXfhIo2KQsfbs98=
+			+lezenGu2sNF7Jei5LMs7H4+rWWVOoLnYvxWwWL7vRk=
 			</data>
 		</dict>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			6ena+8c9wnfHyB/D5m7dJYFcIU9FVgf2759hg9OyaZ8=
+			uAhKNdBYPLtB/zEDL8zDIqozjRA2g6Ruoo0+mL8blys=
 			</data>
 		</dict>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			GJWftuTuxDS+U6b+eXEGORkoobiNe8JeSlZpuxAhV6g=
+			ZSaJtTcb3qRwogPhfkuiUc6dFzhsumbZcAUzB9R16I0=
 			</data>
 		</dict>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			w2fp+l0ynSI282wY+5Zc0npSeCYnIgCWyqnlNQZ3y40=
+			Ii8qY3DnFqUI4VilX8cJXhmPzH3I/yxz20CIpm0c7to=
 			</data>
 		</dict>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			8aEF24uHkAFf7Oa0kadzBMsPtB4ZPyZZpgzxqLCVXII=
+			zBHI5jCIWJbuiO0/vuUe41LHChU7OGb0X68kcRmd8y0=
 			</data>
 		</dict>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			w2fp+l0ynSI282wY+5Zc0npSeCYnIgCWyqnlNQZ3y40=
+			Ii8qY3DnFqUI4VilX8cJXhmPzH3I/yxz20CIpm0c7to=
 			</data>
 		</dict>
 		<key>Modules/ShopliveStudioSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			pNNXzR5d8YKKLFnu9ave5wHzVhINZ/RutDniwE9bUv8=
+			9fLgBYcoKSU8iksyO6LnitQ+thAO+fe5PbXWatD+zXc=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -302,7 +302,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xkCf9gG2DYyQi4WXhTtG7SeM2wi4y6xIELMQ+lEA8As=
+			TKZ+5W5r3TQowjhCAxz3BEFtghL2/RXXhGywN8GAocc=
 			</data>
 		</dict>
 		<key>StreamBottomSheetSelectStreamOptionViewController.storyboardc/Info.plist</key>
