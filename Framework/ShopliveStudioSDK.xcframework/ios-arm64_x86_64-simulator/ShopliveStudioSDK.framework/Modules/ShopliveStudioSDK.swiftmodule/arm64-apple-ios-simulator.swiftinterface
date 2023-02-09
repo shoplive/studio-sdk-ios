@@ -1,78 +1,128 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)
-// swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopliveStudioSDK
+// swift-compiler-version: Apple Swift version 5.8 (swiftlang-5.8.0.124.2 clang-1403.0.22.11.100)
+// swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopLiveStudioSDK
 // swift-module-flags-ignorable: -enable-bare-slash-regex
+import AVFAudio
 import AVFoundation
 import AVKit
-import Alamofire
+import Accelerate
+import AudioToolbox
 import Combine
+import CoreAudio
 import CoreFoundation
-import CoreGraphics
+import CoreImage
 import CoreMedia
+import CoreTelephony
+import CoreVideo
 import Foundation
-import HaishinKit
-import MediaPlayer
-import PanModal
-@_exported import ShopliveStudioSDK
-import SnapKit
+import MetalKit
+import Network
+import QuartzCore
+@_exported import ShopLiveStudioSDK
 import Swift
 import SwiftUI
 import UIKit.UIFont
 import UIKit
+import VideoToolbox
 import WebKit
 import _Concurrency
 import _StringProcessing
-open class KeychainWrapper {
-  @available(*, deprecated, message: "KeychainWrapper.defaultKeychainWrapper is deprecated since version 2.2.1, use KeychainWrapper.standard instead")
-  public static let defaultKeychainWrapper: ShopliveStudioSDK.KeychainWrapper
-  public static let standard: ShopliveStudioSDK.KeychainWrapper
-  public var serviceName: Swift.String {
+public struct Atomic<A> {
+  public var value: A {
     get
   }
-  public var accessGroup: Swift.String? {
+  public init(_ value: A)
+  public mutating func mutate(_ transform: (inout A) -> Swift.Void)
+}
+public enum FLVTagType : Swift.UInt8 {
+  case audio
+  case video
+  case data
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
     get
   }
-  public init(serviceName: Swift.String, accessGroup: Swift.String? = nil)
-  open func hasValue(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  open func accessibilityOfKey(_ key: Swift.String) -> ShopliveStudioSDK.KeychainItemAccessibility?
-  open func allKeys() -> Swift.Set<Swift.String>
-  open func integer(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Int?
-  open func float(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Float?
-  open func double(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Double?
-  open func bool(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool?
-  open func string(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.String?
-  open func object<T>(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false, ofClass: T.Type) -> T? where T : ObjectiveC.NSObject, T : Foundation.NSCoding
-  open func data(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Foundation.Data?
-  open func dataRef(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Foundation.Data?
-  @discardableResult
-  open func set(_ value: Swift.Int, forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  @discardableResult
-  open func set(_ value: Swift.Float, forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  @discardableResult
-  open func set(_ value: Swift.Double, forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  @discardableResult
-  open func set(_ value: Swift.Bool, forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  @discardableResult
-  open func set(_ value: Swift.String, forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  @discardableResult
-  open func set(_ value: Foundation.NSCoding, forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  @discardableResult
-  open func set(_ value: Foundation.Data, forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  @available(*, deprecated, message: "remove is deprecated since version 2.2.1, use removeObject instead")
-  @discardableResult
-  open func remove(key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  @discardableResult
-  open func removeObject(forKey key: Swift.String, withAccessibility accessibility: ShopliveStudioSDK.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
-  @discardableResult
-  open func removeAllKeys() -> Swift.Bool
-  open class func wipeKeychain()
-  @objc deinit
+}
+public protocol FLVTag : Swift.CustomDebugStringConvertible {
+  var tagType: ShopLiveStudioSDK.FLVTagType { get set }
+  var dataSize: Swift.UInt32 { get set }
+  var timestamp: Swift.UInt32 { get set }
+  var timestampExtended: Swift.UInt8 { get set }
+  var streamId: Swift.UInt32 { get set }
+  var offset: Swift.UInt64 { get set }
+  init()
+  mutating func readData(_ fileHandler: Foundation.FileHandle)
+}
+extension ShopLiveStudioSDK.FLVTag {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+public struct FLVDataTag : ShopLiveStudioSDK.FLVTag {
+  public var tagType: ShopLiveStudioSDK.FLVTagType
+  public var dataSize: Swift.UInt32
+  public var timestamp: Swift.UInt32
+  public var timestampExtended: Swift.UInt8
+  public var streamId: Swift.UInt32
+  public var offset: Swift.UInt64
+  public init()
+  public mutating func readData(_ fileHandler: Foundation.FileHandle)
+}
+public struct FLVAudioTag : ShopLiveStudioSDK.FLVTag {
+  public var tagType: ShopLiveStudioSDK.FLVTagType
+  public var dataSize: Swift.UInt32
+  public var timestamp: Swift.UInt32
+  public var timestampExtended: Swift.UInt8
+  public var streamId: Swift.UInt32
+  public var offset: Swift.UInt64
+  public var codec: ShopLiveStudioSDK.FLVAudioCodec
+  public var soundRate: ShopLiveStudioSDK.FLVSoundRate
+  public var soundSize: ShopLiveStudioSDK.FLVSoundSize
+  public var soundType: ShopLiveStudioSDK.FLVSoundType
+  public init()
+  public mutating func readData(_ fileHandler: Foundation.FileHandle)
+}
+public struct FLVVideoTag : ShopLiveStudioSDK.FLVTag {
+  public var tagType: ShopLiveStudioSDK.FLVTagType
+  public var dataSize: Swift.UInt32
+  public var timestamp: Swift.UInt32
+  public var timestampExtended: Swift.UInt8
+  public var streamId: Swift.UInt32
+  public var offset: Swift.UInt64
+  public var frameType: ShopLiveStudioSDK.FLVFrameType
+  public var codec: ShopLiveStudioSDK.FLVVideoCodec
+  public var avcPacketType: ShopLiveStudioSDK.FLVAVCPacketType
+  public var compositionTime: Swift.Int32
+  public init()
+  public mutating func readData(_ fileHandler: Foundation.FileHandle)
+}
+public enum RTMPObjectEncoding : Swift.UInt8 {
+  case amf0
+  case amf3
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
 }
 @_hasMissingDesignatedInitializers final public class ShopLiveStudio {
+  public enum FontType {
+    case thin
+    case regular
+    case medium
+    case semiBold
+    case bold
+    public static func == (a: ShopLiveStudioSDK.ShopLiveStudio.FontType, b: ShopLiveStudioSDK.ShopLiveStudio.FontType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
   public enum Stage {
     case dev
     case prod
-    public static func == (a: ShopliveStudioSDK.ShopLiveStudio.Stage, b: ShopliveStudioSDK.ShopLiveStudio.Stage) -> Swift.Bool
+    public static func == (a: ShopLiveStudioSDK.ShopLiveStudio.Stage, b: ShopLiveStudioSDK.ShopLiveStudio.Stage) -> Swift.Bool
     public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
@@ -80,49 +130,266 @@ open class KeychainWrapper {
   }
   public enum SLStudioRequest {
     case setAccessToken(Swift.String)
-    case setEnvironmentStage(ShopliveStudioSDK.ShopLiveStudio.Stage)
+    case setEnvironmentStage(ShopLiveStudioSDK.ShopLiveStudio.Stage)
     case setEbayUsername(Swift.String)
+    case setBaseURLString(Swift.String)
+    case setFont(type: ShopLiveStudioSDK.ShopLiveStudio.FontType, descriptor: UIKit.UIFontDescriptor)
   }
-  public static func request(_ request: ShopliveStudioSDK.ShopLiveStudio.SLStudioRequest)
-  public static func createStreamViewController(campaign: ShopliveStudioSDK.Campaign) -> ShopliveStudioSDK.StreamViewController
-  public static func campaignList(customerID: Swift.String, page: Swift.Int, count: Swift.Int, handler: ((Swift.Result<ShopliveStudioSDK.Campaigns, Swift.Error>) -> ())?)
+  public static func request(_ request: ShopLiveStudioSDK.ShopLiveStudio.SLStudioRequest)
   @objc deinit
 }
-extension ShopliveStudioSDK.ShopLiveStudio {
+extension ShopLiveStudioSDK.ShopLiveStudio {
+  public struct Builder {
+    public init(campaign: ShopLiveStudioSDK.Campaign)
+    public func setEbayUserName(_ name: Swift.String) -> ShopLiveStudioSDK.ShopLiveStudio.Builder
+    public func build() -> ShopLiveStudioSDK.StreamViewController
+  }
+}
+extension ShopLiveStudioSDK.ShopLiveStudio {
   public static var sdkVersion: Swift.String {
     get
   }
+}
+@objc @_inheritsConvenienceInitializers open class VideoEffect : ObjectiveC.NSObject {
+  public var ciContext: CoreImage.CIContext?
+  open func execute(_ image: CoreImage.CIImage, info: CoreMedia.CMSampleBuffer?) -> CoreImage.CIImage
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct HTTPRequest {
+  public static let separator: Swift.UInt8
+  public var uri: Swift.String
+  public var method: Swift.String
+  public var version: Swift.String
+  public var headerFields: [Swift.String : Swift.String]
+  public var body: Foundation.Data?
+}
+public struct SoundTransform {
+  public static let defaultVolume: Swift.Float
+  public static let defaultPan: Swift.Float
+  public var volume: Swift.Float
+  public var pan: Swift.Float
+}
+extension ShopLiveStudioSDK.SoundTransform : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers final public class NetClient : ShopLiveStudioSDK.NetSocket {
+  override final public func listen()
+  @objc deinit
+}
+public struct HTTPResponse : Swift.ExpressibleByDictionaryLiteral {
+  public var version: Swift.String
+  public var statusCode: Swift.String
+  public var headerFields: [Swift.String : Swift.String]
+  public var body: Foundation.Data?
+  public init(dictionaryLiteral elements: (Swift.String, Swift.String)...)
+  public typealias Key = Swift.String
+  public typealias Value = Swift.String
+}
+public enum ScalingMode : Swift.String, Swift.Codable {
+  case normal
+  case letterbox
+  case cropSourceToCleanAperture
+  case trim
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum FLVSoundSize : Swift.UInt8 {
+  case snd8bit
+  case snd16bit
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+@objc open class NetService : ObjectiveC.NSObject {
+  open var txtData: Foundation.Data? {
+    get
+  }
+  final public let domain: Swift.String
+  final public let type: Swift.String
+  final public let name: Swift.String
+  final public let port: Swift.Int32
+  public var isRunning: ShopLiveStudioSDK.Atomic<Swift.Bool> {
+    get
+  }
+  public var clients: [ShopLiveStudioSDK.NetClient] {
+    get
+  }
+  public init(domain: Swift.String, type: Swift.String, name: Swift.String, port: Swift.Int32)
+  @objc deinit
+}
+extension ShopLiveStudioSDK.NetService : Foundation.NetServiceDelegate {
+  @objc dynamic public func netService(_ sender: Foundation.NetService, didAcceptConnectionWith inputStream: Foundation.InputStream, outputStream: Foundation.OutputStream)
+}
+extension ShopLiveStudioSDK.NetService : ShopLiveStudioSDK.Running {
+  public func startRunning()
+  public func stopRunning()
+}
+public enum FLVVideoCodec : Swift.UInt8 {
+  case jpeg
+  case sorensonH263
+  case screen1
+  case on2VP6
+  case on2VP6Alpha
+  case screen2
+  case avc
+  case unknown
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+public protocol EventDispatcherConvertible : AnyObject {
+  func addEventListener(_ type: ShopLiveStudioSDK.Event.Name, selector: ObjectiveC.Selector, observer: Swift.AnyObject?, useCapture: Swift.Bool)
+  func removeEventListener(_ type: ShopLiveStudioSDK.Event.Name, selector: ObjectiveC.Selector, observer: Swift.AnyObject?, useCapture: Swift.Bool)
+  func dispatch(event: ShopLiveStudioSDK.Event)
+  func dispatch(_ type: ShopLiveStudioSDK.Event.Name, bubbles: Swift.Bool, data: Any?)
+}
+open class Event {
+  public struct Name : Swift.RawRepresentable, Swift.ExpressibleByStringLiteral {
+    public typealias RawValue = Swift.String
+    public typealias StringLiteralType = Swift.String
+    public static let sync: ShopLiveStudioSDK.Event.Name
+    public static let event: ShopLiveStudioSDK.Event.Name
+    public static let ioError: ShopLiveStudioSDK.Event.Name
+    public static let rtmpStatus: ShopLiveStudioSDK.Event.Name
+    public let rawValue: Swift.String
+    public init(rawValue: Swift.String)
+    public init(stringLiteral value: Swift.String)
+    public typealias ExtendedGraphemeClusterLiteralType = ShopLiveStudioSDK.Event.Name.StringLiteralType
+    public typealias UnicodeScalarLiteralType = ShopLiveStudioSDK.Event.Name.StringLiteralType
+  }
+  public static func from(_ notification: Foundation.Notification) -> ShopLiveStudioSDK.Event
+  public var type: ShopLiveStudioSDK.Event.Name {
+    get
+  }
+  public var bubbles: Swift.Bool {
+    get
+  }
+  public var data: Any? {
+    get
+  }
+  public var target: Swift.AnyObject? {
+    get
+  }
+  public init(type: ShopLiveStudioSDK.Event.Name, bubbles: Swift.Bool = false, data: Any? = nil)
+  @objc deinit
+}
+extension ShopLiveStudioSDK.Event : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+open class EventDispatcher : ShopLiveStudioSDK.EventDispatcherConvertible {
+  public init()
+  public init(target: Swift.AnyObject)
+  @objc deinit
+  public func addEventListener(_ type: ShopLiveStudioSDK.Event.Name, selector: ObjectiveC.Selector, observer: Swift.AnyObject? = nil, useCapture: Swift.Bool = false)
+  public func removeEventListener(_ type: ShopLiveStudioSDK.Event.Name, selector: ObjectiveC.Selector, observer: Swift.AnyObject? = nil, useCapture: Swift.Bool = false)
+  open func dispatch(event: ShopLiveStudioSDK.Event)
+  public func dispatch(_ type: ShopLiveStudioSDK.Event.Name, bubbles: Swift.Bool, data: Any?)
 }
 public protocol SLRequestable {
   associatedtype Request
   func request(_ request: Self.Request)
 }
-public enum KeychainItemAccessibility {
-  @available(iOS 4, *)
-  case afterFirstUnlock
-  @available(iOS 4, *)
-  case afterFirstUnlockThisDeviceOnly
-  @available(iOS 4, *)
-  case always
-  @available(iOS 8, *)
-  case whenPasscodeSetThisDeviceOnly
-  @available(iOS 4, *)
-  case alwaysThisDeviceOnly
-  @available(iOS 4, *)
-  case whenUnlocked
-  @available(iOS 4, *)
-  case whenUnlockedThisDeviceOnly
-  public static func == (a: ShopliveStudioSDK.KeychainItemAccessibility, b: ShopliveStudioSDK.KeychainItemAccessibility) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
-  public var hashValue: Swift.Int {
+public enum DeviceUtil {
+  public static func device(withLocalizedName: Swift.String, mediaType: AVFoundation.AVMediaType) -> AVFoundation.AVCaptureDevice?
+}
+extension ShopLiveStudioSDK.DeviceUtil {
+  public static func videoOrientation(by notification: Foundation.Notification) -> AVFoundation.AVCaptureVideoOrientation?
+  public static func videoOrientation(by orientation: UIKit.UIDeviceOrientation) -> AVFoundation.AVCaptureVideoOrientation?
+  public static func videoOrientation(by orientation: UIKit.UIInterfaceOrientation) -> AVFoundation.AVCaptureVideoOrientation?
+}
+public struct VideoSize : Swift.Equatable, Swift.Codable {
+  public let width: Swift.Int32
+  public let height: Swift.Int32
+  public init(width: Swift.Int32, height: Swift.Int32)
+  public func swap() -> ShopLiveStudioSDK.VideoSize
+  public static func == (a: ShopLiveStudioSDK.VideoSize, b: ShopLiveStudioSDK.VideoSize) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public let kASUndefined: ShopLiveStudioSDK.ASUndefined
+public typealias ASObject = [Swift.String : Any?]
+public struct ASUndefined : Swift.CustomStringConvertible {
+  public var description: Swift.String {
     get
   }
 }
-@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class StreamViewController : ShopliveStudioSDK.SLBaseViewController {
+public struct ASTypedObject {
+  public typealias TypedObjectDecoder = (_ type: Swift.String, _ data: ShopLiveStudioSDK.ASObject) throws -> Any
+  public static func register(typeNamed name: Swift.String, decoder: @escaping ShopLiveStudioSDK.ASTypedObject.TypedObjectDecoder)
+  public static func register<T>(type: T.Type, named name: Swift.String) where T : Swift.Decodable
+  public static func unregister(typeNamed name: Swift.String)
+}
+public struct ASArray {
+  public var length: Swift.Int {
+    get
+  }
+  public init(count: Swift.Int)
+  public init(data: [Any?])
+}
+extension ShopLiveStudioSDK.ASArray : Swift.ExpressibleByArrayLiteral {
+  public init(arrayLiteral elements: Any?...)
+  public subscript(i: Any) -> Any? {
+    get
+    set
+  }
+  public typealias ArrayLiteralElement = Any?
+}
+extension ShopLiveStudioSDK.ASArray : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension ShopLiveStudioSDK.ASArray : Swift.Equatable {
+  public static func == (lhs: ShopLiveStudioSDK.ASArray, rhs: ShopLiveStudioSDK.ASArray) -> Swift.Bool
+}
+public struct ASXMLDocument : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public init(data: Swift.String)
+}
+extension ShopLiveStudioSDK.ASXMLDocument : Swift.Equatable {
+  public static func == (lhs: ShopLiveStudioSDK.ASXMLDocument, rhs: ShopLiveStudioSDK.ASXMLDocument) -> Swift.Bool
+}
+public struct ASXML : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public init(data: Swift.String)
+}
+extension ShopLiveStudioSDK.ASXML : Swift.Equatable {
+  public static func == (lhs: ShopLiveStudioSDK.ASXML, rhs: ShopLiveStudioSDK.ASXML) -> Swift.Bool
+}
+public enum FLVSoundType : Swift.UInt8 {
+  case mono
+  case stereo
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class StreamViewController : ShopLiveStudioSDK.SLBaseViewController, ShopLiveStudioSDK.SLResultObservable {
+  public enum Result {
+    case needToLockOrientation(orientation: UIKit.UIInterfaceOrientationMask, rotateOrientation: UIKit.UIInterfaceOrientation)
+  }
+  @_Concurrency.MainActor(unsafe) final public var resultHandler: ((ShopLiveStudioSDK.StreamViewController.Result) -> ())?
   @objc deinit
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillAppear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLayoutSubviews()
   @_Concurrency.MainActor(unsafe) override final public func bindView()
   @_Concurrency.MainActor(unsafe) @objc override final public func observeValue(forKeyPath keyPath: Swift.String?, of object: Any?, change: [Foundation.NSKeyValueChangeKey : Any]?, context: Swift.UnsafeMutableRawPointer?)
@@ -130,41 +397,159 @@ public enum KeychainItemAccessibility {
   @_Concurrency.MainActor(unsafe) override final public func attributes()
   @_Concurrency.MainActor(unsafe) override final public func layout()
 }
-extension ShopliveStudioSDK.StreamViewController : HaishinKit.RTMPStreamDelegate {
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, _ output: AVFoundation.AVCaptureOutput, didOutput sampleBuffer: CoreMedia.CMSampleBuffer)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, publishInsufficientBWOccured connection: HaishinKit.RTMPConnection)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, publishSufficientBWOccured connection: HaishinKit.RTMPConnection)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, didOutput video: CoreMedia.CMSampleBuffer)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, didOutput audio: AVFAudio.AVAudioBuffer, presentationTimeStamp: CoreMedia.CMTime)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, updatedStats connection: HaishinKit.RTMPConnection)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, videoCodecErrorOccurred error: HaishinKit.VideoCodec.Error)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStreamDidClear(_ stream: HaishinKit.RTMPStream)
-  @_Concurrency.MainActor(unsafe) final public func rtmpStream(_ stream: HaishinKit.RTMPStream, didStatics connection: HaishinKit.RTMPConnection)
+extension ShopLiveStudioSDK.StreamViewController : UIKit.UIScrollViewDelegate {
+  @_Concurrency.MainActor(unsafe) @objc final public func scrollViewDidScroll(_ scrollView: UIKit.UIScrollView)
 }
-extension UIKit.UINavigationController {
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var childForStatusBarStyle: UIKit.UIViewController? {
-    @objc get
+public protocol Running : AnyObject {
+  var isRunning: ShopLiveStudioSDK.Atomic<Swift.Bool> { get }
+  func startRunning()
+  func stopRunning()
+}
+public protocol IORecorderDelegate : AnyObject {
+  func recorder(_ recorder: ShopLiveStudioSDK.IORecorder, errorOccured error: ShopLiveStudioSDK.IORecorder.Error)
+  func recorder(_ recorder: ShopLiveStudioSDK.IORecorder, finishWriting writer: AVFoundation.AVAssetWriter)
+}
+@_hasMissingDesignatedInitializers public class IORecorder {
+  public enum Error : Swift.Error {
+    case failedToCreateAssetWriter(error: any Swift.Error)
+    case failedToAppend(error: (any Swift.Error)?)
+    case failedToFinishWriting(error: (any Swift.Error)?)
   }
+  public static let defaultOutputSettings: [AVFoundation.AVMediaType : [Swift.String : Any]]
+  weak public var delegate: (any ShopLiveStudioSDK.IORecorderDelegate)?
+  public var outputSettings: [AVFoundation.AVMediaType : [Swift.String : Any]]
+  public var isRunning: ShopLiveStudioSDK.Atomic<Swift.Bool> {
+    get
+  }
+  public func appendSampleBuffer(_ sampleBuffer: CoreMedia.CMSampleBuffer, mediaType: AVFoundation.AVMediaType)
+  public func appendPixelBuffer(_ pixelBuffer: CoreVideo.CVPixelBuffer, withPresentationTime: CoreMedia.CMTime)
+  @objc deinit
+}
+extension ShopLiveStudioSDK.IORecorder : ShopLiveStudioSDK.Running {
+  public func startRunning()
+  public func stopRunning()
+}
+extension CoreAudioTypes.AudioStreamBasicDescription : Swift.Equatable {
+  public static func == (lhs: CoreAudioTypes.AudioStreamBasicDescription, rhs: CoreAudioTypes.AudioStreamBasicDescription) -> Swift.Bool
+}
+open class ByteArray {
+  public enum Error : Swift.Error {
+    case eof
+    case parse
+    public static func == (a: ShopLiveStudioSDK.ByteArray.Error, b: ShopLiveStudioSDK.ByteArray.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init()
+  public init(data: Foundation.Data)
+  public var length: Swift.Int {
+    get
+    set
+  }
+  public var position: Swift.Int
+  public var bytesAvailable: Swift.Int {
+    get
+  }
+  public subscript(i: Swift.Int) -> Swift.UInt8 {
+    get
+    set
+  }
+  public func readUInt8() throws -> Swift.UInt8
+  @discardableResult
+  public func writeUInt8(_ value: Swift.UInt8) -> Self
+  public func readInt8() throws -> Swift.Int8
+  @discardableResult
+  public func writeInt8(_ value: Swift.Int8) -> Self
+  public func readUInt16() throws -> Swift.UInt16
+  @discardableResult
+  public func writeUInt16(_ value: Swift.UInt16) -> Self
+  public func readInt16() throws -> Swift.Int16
+  @discardableResult
+  public func writeInt16(_ value: Swift.Int16) -> Self
+  public func readUInt24() throws -> Swift.UInt32
+  @discardableResult
+  public func writeUInt24(_ value: Swift.UInt32) -> Self
+  public func readUInt32() throws -> Swift.UInt32
+  @discardableResult
+  public func writeUInt32(_ value: Swift.UInt32) -> Self
+  public func readInt32() throws -> Swift.Int32
+  @discardableResult
+  public func writeInt32(_ value: Swift.Int32) -> Self
+  @discardableResult
+  public func writeUInt64(_ value: Swift.UInt64) -> Self
+  public func readUInt64() throws -> Swift.UInt64
+  public func writeInt64(_ value: Swift.Int64) -> Self
+  public func readInt64() throws -> Swift.Int64
+  public func readDouble() throws -> Swift.Double
+  @discardableResult
+  public func writeDouble(_ value: Swift.Double) -> Self
+  public func readFloat() throws -> Swift.Float
+  @discardableResult
+  public func writeFloat(_ value: Swift.Float) -> Self
+  public func readUTF8() throws -> Swift.String
+  @discardableResult
+  public func writeUTF8(_ value: Swift.String) throws -> Self
+  @discardableResult
+  public func clear() -> Self
+  @objc deinit
+}
+extension ShopLiveStudioSDK.ByteArray : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+public enum ImageTransform : Swift.String, Swift.Codable {
+  case north
+  case south
+  case east
+  case west
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public class IOUIScreenCaptureUnit : ObjectiveC.NSObject, ShopLiveStudioSDK.IOScreenCaptureUnit {
+  public var enabledScale: Swift.Bool
+  public var afterScreenUpdates: Swift.Bool
+  public var frameInterval: Swift.Int
+  public var attributes: [Foundation.NSString : ObjectiveC.NSObject] {
+    get
+  }
+  weak public var delegate: (any ShopLiveStudioSDK.IOScreenCaptureUnitDelegate)?
+  public var isRunning: ShopLiveStudioSDK.Atomic<Swift.Bool> {
+    get
+  }
+  public init(shared: UIKit.UIApplication)
+  public init(viewToCapture: UIKit.UIView)
+  @objc public func onScreen(_ displayLink: QuartzCore.CADisplayLink)
+  @objc deinit
+}
+extension ShopLiveStudioSDK.IOUIScreenCaptureUnit : ShopLiveStudioSDK.Running {
+  public func startRunning()
+  public func stopRunning()
 }
 public protocol SLResultObservable {
   associatedtype Result
   var resultHandler: ((Self.Result) -> ())? { get set }
 }
-public struct Campaigns : ShopliveStudioSDK.BaseResponsable {
+public struct Campaigns : ShopLiveStudioSDK.SLBaseResponsable {
   public var _s: Swift.Int?
   public var _e: Swift.String?
-  public let results: [ShopliveStudioSDK.Campaign]?
+  public let results: [ShopLiveStudioSDK.Campaign]?
   public let totalCount: Swift.Int?
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
-public struct Campaign : ShopliveStudioSDK.BaseResponsable, Swift.Equatable {
+public struct Campaign : ShopLiveStudioSDK.SLBaseResponsable, Swift.Equatable {
   public var _s: Swift.Int?
   public var _e: Swift.String?
   public let campaignID: Swift.String?, campaignKey: Swift.String?, accessKey: Swift.String?
   public let customerID: Swift.String?
   public let title: Swift.String?
-  public var campaignStatus: ShopliveStudioSDK.CampaignStatus?
+  public var campaignStatus: ShopLiveStudioSDK.CampaignStatus?
   public var rehearsal: Swift.Bool?
   public let passcode: Swift.String?
   public let posterURL: Swift.String?, backgroundURL: Swift.String?, poster2URL: Swift.String?
@@ -172,8 +557,10 @@ public struct Campaign : ShopliveStudioSDK.BaseResponsable, Swift.Equatable {
   public let campaignURL: Swift.String?
   public var streamURL: Swift.String?, streamKey: Swift.String?
   public var videoAspectRatio: Swift.String?
-  public static func == (lhs: ShopliveStudioSDK.Campaign, rhs: ShopliveStudioSDK.Campaign) -> Swift.Bool
-  public var status: ShopliveStudioSDK.CampaignStatus {
+  public var bookmark: Swift.Bool?
+  public init(_s: Swift.Int? = nil, _e: Swift.String? = nil, campaignID: Swift.String?, campaignKey: Swift.String?, accessKey: Swift.String?, customerID: Swift.String?, title: Swift.String?, campaignStatus: ShopLiveStudioSDK.CampaignStatus? = nil, rehearsal: Swift.Bool? = nil, passcode: Swift.String?, posterURL: Swift.String?, backgroundURL: Swift.String?, poster2URL: Swift.String?, scheduledAt: Swift.Double?, startedAt: Swift.Double?, createdAt: Swift.Double?, updatedAt: Swift.Double?, campaignURL: Swift.String?, streamURL: Swift.String? = nil, streamKey: Swift.String? = nil, videoAspectRatio: Swift.String? = nil, bookmark: Swift.Bool? = nil)
+  public static func == (lhs: ShopLiveStudioSDK.Campaign, rhs: ShopLiveStudioSDK.Campaign) -> Swift.Bool
+  public var status: ShopLiveStudioSDK.CampaignStatus {
     get
   }
   public var thumbnailUrl: Foundation.URL? {
@@ -185,8 +572,8 @@ public struct Campaign : ShopliveStudioSDK.BaseResponsable, Swift.Equatable {
   public var isRehearsal: Swift.Bool {
     get
   }
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public enum CampaignStatus : Swift.String, Swift.Codable {
   case closed
@@ -198,8 +585,17 @@ public enum CampaignStatus : Swift.String, Swift.Codable {
     get
   }
 }
-extension ShopliveStudioSDK.CampaignStatus {
+extension ShopLiveStudioSDK.CampaignStatus {
   public var name: Swift.String {
+    get
+  }
+}
+public enum FLVAACPacketType : Swift.UInt8 {
+  case seq
+  case raw
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
     get
   }
 }
@@ -209,15 +605,243 @@ extension ShopliveStudioSDK.CampaignStatus {
   @_Concurrency.MainActor(unsafe) public func attributes()
   @_Concurrency.MainActor(unsafe) public func bindView()
   @_Concurrency.MainActor(unsafe) public func bindData()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func dismiss(animated flag: Swift.Bool, completion: (() -> Swift.Void)? = nil)
   @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
   @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
   @objc deinit
 }
-public protocol BaseResponsable : Swift.Decodable, Swift.Encodable {
+public enum FLVSoundRate : Swift.UInt8 {
+  case kHz5_5
+  case kHz11
+  case kHz22
+  case kHz44
+  public var floatValue: Swift.Float64 {
+    get
+  }
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers open class AudioEffect : ObjectiveC.NSObject {
+  open func execute(_ buffer: AVFAudio.AVAudioBuffer, presentationTimeStamp: CoreMedia.CMTime)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class NetSocket : ObjectiveC.NSObject {
+  public static let defaultTimeout: Swift.Int
+  public static let defaultWindowSizeC: Swift.Int
+  public var inputBuffer: Foundation.Data
+  public var timeout: Swift.Int
+  public var connected: Swift.Bool
+  public var windowSizeC: Swift.Int
+  public var totalBytesIn: ShopLiveStudioSDK.Atomic<Swift.Int64>
+  public var qualityOfService: Dispatch.DispatchQoS
+  public var securityLevel: Foundation.StreamSocketSecurityLevel
+  public var outputBufferSize: Swift.Int
+  public var totalBytesOut: ShopLiveStudioSDK.Atomic<Swift.Int64> {
+    get
+  }
+  public var queueBytesOut: ShopLiveStudioSDK.Atomic<Swift.Int64> {
+    get
+  }
+  @objc deinit
+  public func connect(withName: Swift.String, port: Swift.Int)
+  @discardableResult
+  public func doOutput(data: Foundation.Data, locked: Swift.UnsafeMutablePointer<Swift.UInt32>? = nil) -> Swift.Int
+  open func close()
+  open func listen()
+  @objc override dynamic public init()
+}
+extension ShopLiveStudioSDK.NetSocket : Foundation.StreamDelegate {
+  @objc dynamic public func stream(_ aStream: Foundation.Stream, handle eventCode: Foundation.Stream.Event)
+}
+public enum FLVAudioCodec : Swift.UInt8 {
+  case pcm
+  case adpcm
+  case mp3
+  case pcmle
+  case nellymoser16K
+  case nellymoser8K
+  case nellymoser
+  case g711A
+  case g711MU
+  case aac
+  case speex
+  case mp3_8k
+  case device
+  case unknown
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class PiPHKView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public static var defaultBackgroundColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public class var layerClass: Swift.AnyClass {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public var layer: AVFoundation.AVSampleBufferDisplayLayer {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) public var videoGravity: AVFoundation.AVLayerVideoGravity {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) public var videoFormatDescription: CoreMedia.CMVideoFormatDescription? {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public var videoOrientation: AVFoundation.AVCaptureVideoOrientation {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func awakeFromNib()
+}
+public protocol TSReaderDelegate : AnyObject {
+  func reader(_ reader: ShopLiveStudioSDK.TSReader, id: Swift.UInt16, didRead formatDescription: CoreMedia.CMFormatDescription)
+  func reader(_ reader: ShopLiveStudioSDK.TSReader, id: Swift.UInt16, didRead sampleBuffer: CoreMedia.CMSampleBuffer)
+}
+public class TSReader {
+  weak public var delegate: (any ShopLiveStudioSDK.TSReaderDelegate)?
+  public init()
+  public func read(_ data: Foundation.Data) -> Swift.Int
+  public func clear()
+  @objc deinit
+}
+public enum FLVAVCPacketType : Swift.UInt8 {
+  case seq
+  case nal
+  case eos
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+public struct VTSessionOption {
+}
+extension ShopLiveStudioSDK.VTSessionOption : Swift.Hashable {
+  public static func == (lhs: ShopLiveStudioSDK.VTSessionOption, rhs: ShopLiveStudioSDK.VTSessionOption) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Swift.Array {
+  public func chunked(into size: Swift.Int) -> [[Element]]
+  public func chunks(size chunksize: Swift.Int) -> Swift.Array<Swift.Array<Element>>
+}
+extension Swift.Array where Element == Swift.String {
+  public func reducedWithComma() -> Swift.String
+}
+extension Swift.Collection {
+  public subscript(safe index: Self.Index) -> Self.Element? {
+    get
+  }
+  public var isNotEmpty: Swift.Bool {
+    get
+  }
+}
+public protocol IOScreenCaptureUnitDelegate : AnyObject {
+  func session(_ session: any ShopLiveStudioSDK.IOScreenCaptureUnit, didOutput pixelBuffer: CoreVideo.CVPixelBuffer, presentationTime: CoreMedia.CMTime)
+}
+public protocol IOScreenCaptureUnit : ShopLiveStudioSDK.Running {
+  var attributes: [Foundation.NSString : ObjectiveC.NSObject] { get }
+  var delegate: (any ShopLiveStudioSDK.IOScreenCaptureUnitDelegate)? { get set }
+}
+public struct AudioCodecSettings : Swift.Codable {
+  public static let `default`: ShopLiveStudioSDK.AudioCodecSettings
+  public var bitRate: Swift.Int
+  public init(bitRate: Swift.Int = 32 * 1000)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum FLVFrameType : Swift.UInt8 {
+  case key
+  case inter
+  case disposable
+  case generated
+  case command
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+public struct MultiCamCaptureSettings : Swift.Codable {
+  public enum Mode : Swift.String, Swift.Codable {
+    case pip
+    case splitView
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public static let `default`: ShopLiveStudioSDK.MultiCamCaptureSettings
+  public let mode: ShopLiveStudioSDK.MultiCamCaptureSettings.Mode
+  public let cornerRadius: CoreFoundation.CGFloat
+  public let regionOfInterest: CoreFoundation.CGRect
+  public let direction: ShopLiveStudioSDK.ImageTransform
+  public init(mode: ShopLiveStudioSDK.MultiCamCaptureSettings.Mode, cornerRadius: CoreFoundation.CGFloat, regionOfInterest: CoreFoundation.CGRect, direction: ShopLiveStudioSDK.ImageTransform)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum AudioCodecFormat {
+  case aac
+  case pcm
+  public static func == (a: ShopLiveStudioSDK.AudioCodecFormat, b: ShopLiveStudioSDK.AudioCodecFormat) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class IOVideoCaptureUnit {
+  public static let defaultVideoSettings: [Foundation.NSString : Swift.AnyObject]
+  public var device: AVFoundation.AVCaptureDevice? {
+    get
+  }
+  public var videoOrientation: AVFoundation.AVCaptureVideoOrientation {
+    get
+    set
+  }
+  public var isVideoMirrored: Swift.Bool {
+    get
+    set
+  }
+  @available(macOS, unavailable)
+  public var preferredVideoStabilizationMode: AVFoundation.AVCaptureVideoStabilizationMode {
+    get
+    set
+  }
+  @objc deinit
+}
+public struct RTMPStreamInfo {
+  public var byteCount: ShopLiveStudioSDK.Atomic<Swift.Int64> {
+    get
+  }
+  public var resourceName: Swift.String? {
+    get
+  }
+  public var currentBytesPerSecond: Swift.Int32 {
+    get
+  }
+}
+extension ShopLiveStudioSDK.RTMPStreamInfo : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+public protocol SLBaseResponsable : Swift.Decodable, Swift.Encodable {
   var _s: Swift.Int? { get set }
   var _e: Swift.String? { get set }
 }
-extension ShopliveStudioSDK.BaseResponsable {
+extension ShopLiveStudioSDK.SLBaseResponsable {
   public var isBaseModel: Swift.Bool {
     get
   }
@@ -225,16 +849,61 @@ extension ShopliveStudioSDK.BaseResponsable {
     get
   }
 }
-public struct BaseResponse : ShopliveStudioSDK.BaseResponsable {
+public struct SLBaseResponse : ShopLiveStudioSDK.SLBaseResponsable {
   public var _s: Swift.Int?
   public var _e: Swift.String?
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
-extension ShopliveStudioSDK.ShopLiveStudio.Stage : Swift.Equatable {}
-extension ShopliveStudioSDK.ShopLiveStudio.Stage : Swift.Hashable {}
-extension ShopliveStudioSDK.KeychainItemAccessibility : Swift.Equatable {}
-extension ShopliveStudioSDK.KeychainItemAccessibility : Swift.Hashable {}
-extension ShopliveStudioSDK.CampaignStatus : Swift.Equatable {}
-extension ShopliveStudioSDK.CampaignStatus : Swift.Hashable {}
-extension ShopliveStudioSDK.CampaignStatus : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.FLVTagType : Swift.Equatable {}
+extension ShopLiveStudioSDK.FLVTagType : Swift.Hashable {}
+extension ShopLiveStudioSDK.FLVTagType : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.RTMPObjectEncoding : Swift.Equatable {}
+extension ShopLiveStudioSDK.RTMPObjectEncoding : Swift.Hashable {}
+extension ShopLiveStudioSDK.RTMPObjectEncoding : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.ShopLiveStudio.FontType : Swift.Equatable {}
+extension ShopLiveStudioSDK.ShopLiveStudio.FontType : Swift.Hashable {}
+extension ShopLiveStudioSDK.ShopLiveStudio.Stage : Swift.Equatable {}
+extension ShopLiveStudioSDK.ShopLiveStudio.Stage : Swift.Hashable {}
+extension ShopLiveStudioSDK.HTTPRequest : Swift.CustomStringConvertible {}
+extension ShopLiveStudioSDK.HTTPResponse : Swift.CustomDebugStringConvertible {}
+extension ShopLiveStudioSDK.ScalingMode : Swift.Equatable {}
+extension ShopLiveStudioSDK.ScalingMode : Swift.Hashable {}
+extension ShopLiveStudioSDK.ScalingMode : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.FLVSoundSize : Swift.Equatable {}
+extension ShopLiveStudioSDK.FLVSoundSize : Swift.Hashable {}
+extension ShopLiveStudioSDK.FLVSoundSize : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.FLVVideoCodec : Swift.Equatable {}
+extension ShopLiveStudioSDK.FLVVideoCodec : Swift.Hashable {}
+extension ShopLiveStudioSDK.FLVVideoCodec : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.FLVSoundType : Swift.Equatable {}
+extension ShopLiveStudioSDK.FLVSoundType : Swift.Hashable {}
+extension ShopLiveStudioSDK.FLVSoundType : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.ByteArray.Error : Swift.Equatable {}
+extension ShopLiveStudioSDK.ByteArray.Error : Swift.Hashable {}
+extension ShopLiveStudioSDK.ImageTransform : Swift.Equatable {}
+extension ShopLiveStudioSDK.ImageTransform : Swift.Hashable {}
+extension ShopLiveStudioSDK.ImageTransform : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.CampaignStatus : Swift.Equatable {}
+extension ShopLiveStudioSDK.CampaignStatus : Swift.Hashable {}
+extension ShopLiveStudioSDK.CampaignStatus : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.FLVAACPacketType : Swift.Equatable {}
+extension ShopLiveStudioSDK.FLVAACPacketType : Swift.Hashable {}
+extension ShopLiveStudioSDK.FLVAACPacketType : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.FLVSoundRate : Swift.Equatable {}
+extension ShopLiveStudioSDK.FLVSoundRate : Swift.Hashable {}
+extension ShopLiveStudioSDK.FLVSoundRate : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.FLVAudioCodec : Swift.Equatable {}
+extension ShopLiveStudioSDK.FLVAudioCodec : Swift.Hashable {}
+extension ShopLiveStudioSDK.FLVAudioCodec : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.FLVAVCPacketType : Swift.Equatable {}
+extension ShopLiveStudioSDK.FLVAVCPacketType : Swift.Hashable {}
+extension ShopLiveStudioSDK.FLVAVCPacketType : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.FLVFrameType : Swift.Equatable {}
+extension ShopLiveStudioSDK.FLVFrameType : Swift.Hashable {}
+extension ShopLiveStudioSDK.FLVFrameType : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.MultiCamCaptureSettings.Mode : Swift.Equatable {}
+extension ShopLiveStudioSDK.MultiCamCaptureSettings.Mode : Swift.Hashable {}
+extension ShopLiveStudioSDK.MultiCamCaptureSettings.Mode : Swift.RawRepresentable {}
+extension ShopLiveStudioSDK.AudioCodecFormat : Swift.Equatable {}
+extension ShopLiveStudioSDK.AudioCodecFormat : Swift.Hashable {}

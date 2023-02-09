@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "ShopliveStudioSDK"
-  spec.version      = "1.0.0"
+  spec.version      = "1.0.1"
   spec.summary      = "ShopLive Studio Framework for iOS"
 
   spec.homepage     = "http://shoplive.cloud"
@@ -16,7 +16,4 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target = '11.0'
   spec.swift_version = "5"
   spec.vendored_frameworks = 'Framework/ShopliveStudioSDK.xcframework'
-  spec.dependency "Alamofire", "~> 5.0.0"
-  spec.dependency "PanModal", "~> 1.0.0"
-  spec.dependency "SnapKit", "~> 5.0.0"
 end
