@@ -10,7 +10,7 @@ let package = Package(
         .library(name: "ShopliveStudioSDK", targets: ["ShopliveStudioSDKTarget"]),
     ],
     dependencies: [
-        .package(name: "Alamofire", url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.0.0")),
+        
     ],
     targets: [
         .binaryTarget(
@@ -20,7 +20,6 @@ let package = Package(
         .target(
             name: "ShopliveStudioSDKTarget",
             dependencies: [
-                .product(name: "Alamofire", package: "Alamofire"),
                 .target(name: "ShopliveStudioSDK")
             ]
         )
