@@ -9,6 +9,9 @@ let package = Package(
     products: [
         .library(name: "ShopliveStudioSDK", targets: ["ShopliveStudioSDKTarget"]),
     ],
+    dependencies: [
+        
+    ],
     targets: [
         .binaryTarget(
             name: "ShopliveStudioSDK",
