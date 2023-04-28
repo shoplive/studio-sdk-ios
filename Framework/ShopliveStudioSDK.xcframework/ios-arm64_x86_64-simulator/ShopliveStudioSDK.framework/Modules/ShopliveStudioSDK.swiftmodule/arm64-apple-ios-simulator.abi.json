@@ -63437,7 +63437,7 @@
       "kind": "StringLiteral",
       "offset": 533,
       "length": 42,
-      "value": "\"com.shoplive.studiosdk.ShopliveStudioSDK\""
+      "value": "\"com.shoplive.studiosdk.ShopLiveStudioSDK\""
     },
     {
       "filePath": "\/Users\/james\/Desktop\/projects\/ios\/StudioSDK\/matrix-studio-sdk\/ShopLiveStudioSDK\/source\/components\/Instantiable.swift",
