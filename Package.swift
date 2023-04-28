@@ -8,7 +8,7 @@ let package = Package(
     platforms: [.iOS(.v11)],
 
     products: [
-        .library(name: "ShopLiveStudioSDK", type: .static,  targets: ["ShopLiveStudioSDKTarget"]),
+        .library(name: "ShopLiveStudioSDK", targets: ["ShopLiveStudioSDKTarget"]),
     ],
 
     dependencies: [ ],
