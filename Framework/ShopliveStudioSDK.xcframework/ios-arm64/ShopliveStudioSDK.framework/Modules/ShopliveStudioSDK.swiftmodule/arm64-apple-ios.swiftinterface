@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-compiler-version: Apple Swift version 5.8 (swiftlang-5.8.0.124.2 clang-1403.0.22.11.100)
 // swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopLiveStudioSDK
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import AVFAudio
@@ -315,8 +315,8 @@ public struct VideoSize : Swift.Equatable, Swift.Codable {
   public init(width: Swift.Int32, height: Swift.Int32)
   public func swap() -> ShopLiveStudioSDK.VideoSize
   public static func == (a: ShopLiveStudioSDK.VideoSize, b: ShopLiveStudioSDK.VideoSize) -> Swift.Bool
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public let kASUndefined: ShopLiveStudioSDK.ASUndefined
 public typealias ASObject = [Swift.String : Any?]
@@ -389,7 +389,7 @@ public enum FLVSoundType : Swift.UInt8 {
   @objc deinit
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillAppear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLayoutSubviews()
   @_Concurrency.MainActor(unsafe) override final public func bindView()
   @_Concurrency.MainActor(unsafe) @objc override final public func observeValue(forKeyPath keyPath: Swift.String?, of object: Any?, change: [Foundation.NSKeyValueChangeKey : Any]?, context: Swift.UnsafeMutableRawPointer?)
@@ -411,12 +411,12 @@ public protocol IORecorderDelegate : AnyObject {
 }
 @_hasMissingDesignatedInitializers public class IORecorder {
   public enum Error : Swift.Error {
-    case failedToCreateAssetWriter(error: Swift.Error)
-    case failedToAppend(error: Swift.Error?)
-    case failedToFinishWriting(error: Swift.Error?)
+    case failedToCreateAssetWriter(error: any Swift.Error)
+    case failedToAppend(error: (any Swift.Error)?)
+    case failedToFinishWriting(error: (any Swift.Error)?)
   }
   public static let defaultOutputSettings: [AVFoundation.AVMediaType : [Swift.String : Any]]
-  weak public var delegate: ShopLiveStudioSDK.IORecorderDelegate?
+  weak public var delegate: (any ShopLiveStudioSDK.IORecorderDelegate)?
   public var outputSettings: [AVFoundation.AVMediaType : [Swift.String : Any]]
   public var isRunning: ShopLiveStudioSDK.Atomic<Swift.Bool> {
     get
@@ -518,7 +518,7 @@ public enum ImageTransform : Swift.String, Swift.Codable {
   public var attributes: [Foundation.NSString : ObjectiveC.NSObject] {
     get
   }
-  weak public var delegate: ShopLiveStudioSDK.IOScreenCaptureUnitDelegate?
+  weak public var delegate: (any ShopLiveStudioSDK.IOScreenCaptureUnitDelegate)?
   public var isRunning: ShopLiveStudioSDK.Atomic<Swift.Bool> {
     get
   }
@@ -540,8 +540,8 @@ public struct Campaigns : ShopLiveStudioSDK.SLBaseResponsable {
   public var _e: Swift.String?
   public let results: [ShopLiveStudioSDK.Campaign]?
   public let totalCount: Swift.Int?
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public struct Campaign : ShopLiveStudioSDK.SLBaseResponsable, Swift.Equatable {
   public var _s: Swift.Int?
@@ -572,8 +572,8 @@ public struct Campaign : ShopLiveStudioSDK.SLBaseResponsable, Swift.Equatable {
   public var isRehearsal: Swift.Bool {
     get
   }
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public enum CampaignStatus : Swift.String, Swift.Codable {
   case closed
@@ -707,7 +707,7 @@ public protocol TSReaderDelegate : AnyObject {
   func reader(_ reader: ShopLiveStudioSDK.TSReader, id: Swift.UInt16, didRead sampleBuffer: CoreMedia.CMSampleBuffer)
 }
 public class TSReader {
-  weak public var delegate: ShopLiveStudioSDK.TSReaderDelegate?
+  weak public var delegate: (any ShopLiveStudioSDK.TSReaderDelegate)?
   public init()
   public func read(_ data: Foundation.Data) -> Swift.Int
   public func clear()
@@ -748,18 +748,18 @@ extension Swift.Collection {
   }
 }
 public protocol IOScreenCaptureUnitDelegate : AnyObject {
-  func session(_ session: ShopLiveStudioSDK.IOScreenCaptureUnit, didOutput pixelBuffer: CoreVideo.CVPixelBuffer, presentationTime: CoreMedia.CMTime)
+  func session(_ session: any ShopLiveStudioSDK.IOScreenCaptureUnit, didOutput pixelBuffer: CoreVideo.CVPixelBuffer, presentationTime: CoreMedia.CMTime)
 }
 public protocol IOScreenCaptureUnit : ShopLiveStudioSDK.Running {
   var attributes: [Foundation.NSString : ObjectiveC.NSObject] { get }
-  var delegate: ShopLiveStudioSDK.IOScreenCaptureUnitDelegate? { get set }
+  var delegate: (any ShopLiveStudioSDK.IOScreenCaptureUnitDelegate)? { get set }
 }
 public struct AudioCodecSettings : Swift.Codable {
   public static let `default`: ShopLiveStudioSDK.AudioCodecSettings
   public var bitRate: Swift.Int
   public init(bitRate: Swift.Int = 32 * 1000)
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public enum FLVFrameType : Swift.UInt8 {
   case key
@@ -789,8 +789,8 @@ public struct MultiCamCaptureSettings : Swift.Codable {
   public let regionOfInterest: CoreFoundation.CGRect
   public let direction: ShopLiveStudioSDK.ImageTransform
   public init(mode: ShopLiveStudioSDK.MultiCamCaptureSettings.Mode, cornerRadius: CoreFoundation.CGFloat, regionOfInterest: CoreFoundation.CGRect, direction: ShopLiveStudioSDK.ImageTransform)
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public enum AudioCodecFormat {
   case aac
@@ -852,8 +852,8 @@ extension ShopLiveStudioSDK.SLBaseResponsable {
 public struct SLBaseResponse : ShopLiveStudioSDK.SLBaseResponsable {
   public var _s: Swift.Int?
   public var _e: Swift.String?
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 extension ShopLiveStudioSDK.FLVTagType : Swift.Equatable {}
 extension ShopLiveStudioSDK.FLVTagType : Swift.Hashable {}

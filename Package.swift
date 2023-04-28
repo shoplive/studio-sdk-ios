@@ -4,23 +4,25 @@
 import PackageDescription
 
 let package = Package(
-    name: "ShopliveStudioSDK",
+    name: "ShopLiveStudioSDK",
     platforms: [.iOS(.v11)],
+
     products: [
-        .library(name: "ShopliveStudioSDK",type: .static,  targets: ["ShopliveStudioSDKTarget"]),
+        .library(name: "ShopLiveStudioSDK", type: .static,  targets: ["ShopLiveStudioSDKTarget"]),
     ],
-    dependencies: [
-        
-    ],
+
+    dependencies: [ ],
+
     targets: [
         .binaryTarget(
-            name: "ShopliveStudioSDK",
-            path: "Framework/ShopliveStudioSDK.xcframework"
+            name: "ShopLiveStudioSDK",
+            path: "Framework/ShopLiveStudioSDK.xcframework"
         ),
+
         .target(
-            name: "ShopliveStudioSDKTarget",
+            name: "ShopLiveStudioSDKTarget",
             dependencies: [
-                .target(name: "ShopliveStudioSDK")
+                .target(name: "ShopLiveStudioSDK")
             ]
         )
     ]
